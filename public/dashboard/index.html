@@ -178,7 +178,7 @@
 
         firebase.auth().signInWithEmailAndPassword(username, pass)
             .catch(function(error) {
-                    window.location.href = "http://localhost:8080";
+                    window.location.href = "http://localhost:8081";
             });
 
         firebase.auth().onAuthStateChanged(function(user) {
