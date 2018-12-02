@@ -1,0 +1,16 @@
+{
+  "name": "cat300",
+  "version": "1.0.0",
+  "description": "TITLE:  Splash - 100% Fully Responsive Free HTML5 Bootstrap Template",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "firebase": "^5.5.5",
+    "qrcode-generator": "^1.4.1"
+  }
+}
