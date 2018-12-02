@@ -13,7 +13,28 @@ function generatecode() {
 
     });
 
-    qrcode.makeCode(lecture+"_"+date+"_"+time);
+    var count = 0;
+
+    var n = Math.ceil(Math.random() * 1000);
+    var str = lecture+"_"+date+"_"+time + "_" + n;
+    qrcode.makeCode(str);
+    count++;
+var generate = setInterval(function(){
+    n = Math.ceil(Math.random() * 1000);
+    str = lecture+"_"+date+"_"+time + "_" + n;
+    qrcode.makeCode(str);
+    console.log(str)
+    count++;
+
+    if(count === 5) {
+        clearInterval(generate)
+        console.log("done");
+        document.getElementById('qrcode').innerHTML = "";
+    }
+}, 5000);
+
+
+    
 
     // var typeNumber = 4;
     // var errorCorrectionLevel = 'L';
