@@ -109,7 +109,7 @@
                     <section class="clearfix">
                        <div class="g2 row">
                          <div class="col-md-4">
-                                <h4>Class Code</h4>
+                            <h4>Class Type</h4>
                                 <div class="form-group">
                                   <select class="form-control " name="choice"  required="required" id="classoption">
                                     <option value="lecture">Lecture</option>
@@ -149,18 +149,20 @@
             
     <!-- /#wrapper -->
     <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-database.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase.js"></script>
     <script>
-        // Initialize Firebase
-        var config = {
-      apiKey: "AIzaSyA5GZu4y4DtvsFHmIwxNoTzqBUe57CpiO0",
-      authDomain: "cat300-9ea28.firebaseapp.com",
-      databaseURL: "https://cat300-9ea28.firebaseio.com",
-      projectId: "cat300-9ea28",
-      storageBucket: "cat300-9ea28.appspot.com",
-      messagingSenderId: "224945954792"
-        };
-        firebase.initializeApp(config);</script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyA5GZu4y4DtvsFHmIwxNoTzqBUe57CpiO0",
+        authDomain: "cat300-9ea28.firebaseapp.com",
+        databaseURL: "https://cat300-9ea28.firebaseio.com",
+        projectId: "cat300-9ea28",
+        storageBucket: "cat300-9ea28.appspot.com",
+        messagingSenderId: "224945954792"
+    };
+    firebase.initializeApp(config);
+    </script>
 
     <!-- jQuery -->
     <script src="../vendor/jquery/jquery.min.js"></script>
@@ -186,16 +188,23 @@
     <script src="qrcode.js"></script> 
     <script src="index.js"></script> 
 
-    <script>var rootref=firebase.database().ref().child("class");
+    <script>
 
-    rootref.on("child_added",snap=>{
-    console.log("jjj");
-    var code = snap.child("classcode").val(); 
+    var rootref=firebase.database().ref().child("Class");
 
-    var name= snap.child("classname").val();
+    rootref.on("value", snap => {
+        snap.forEach(function(itemSnapshot) {
+        var code= itemSnapshot.key;
+        var courseName= rootref.child(code).child("classname");
 
+        courseName.once("value")
+        .then((snap2)=> {
+            var name= snap2.val();
+            console.log(code+ " " +name);
+            $("#classoption2").append("<option value='" + code +"'>"+ code +" "+ name +"</option>");
+        });
 
-    $("#classoption2").append("<option value='" + code +"'>"+ code +" "+ name +"<option>");
+        });
     });
     </script>
     
