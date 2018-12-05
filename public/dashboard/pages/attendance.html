@@ -107,11 +107,13 @@
             <div class="row">
                 <div id="view">
                     <section class="clearfix">
+             
                        <div class="g2 row">
                          <div class="col-md-4">
-                            <h4>Class Type</h4>
+                            
+                                <h4>Class Type</h4>
                                 <div class="form-group">
-                                  <select class="form-control " name="choice"  required="required" id="classoption">
+                                  <select class="form-control " name="choice"  required="required" id="classoption" data-validation-required-message="Please choose class type.">
                                     <option value="lecture">Lecture</option>
                                     <option value="tutorial">Tutorial</option>
                                     <option value="lab">Lab</option>
@@ -120,7 +122,7 @@
                                 </div>
                              <h4>Class Code</h4>
                              <div class="form-group">
-                               <select class="form-control " name="choice"  required="required" id="classoption2">
+                               <select class="form-control " name="choice"  required="required" id="classoption2" data-validation-required-message="Please choose class.">
                                  <option value="" disabled selected>Select class</option>
                                </select>
                                <p class="help-block text-danger"></p>
@@ -139,8 +141,10 @@
                     <br><br>
                     <input onclick="generatecode()" type="submit" class="btn btn-primary" value="Generate Code">
                     <br><br><br><br>
+                    
                     <input id="matricnumber" placeholder="132***" name="addattendance" type="text" value="">
                     <input onclick="addattendance()" type="submit" class="btn btn-primary" value="Add Attendance">
+                    </section>
                 </div>
             </div>
         </div>
@@ -187,25 +191,55 @@
     <!-- <script type="text/javascript" src="qrcode.js"></script> -->
     <script src="qrcode.js"></script> 
     <script src="index.js"></script> 
-
+    
     <script>
 
-    var rootref=firebase.database().ref().child("Class");
+        firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            var id=user.uid;}
 
-    rootref.on("value", snap => {
-        snap.forEach(function(itemSnapshot) {
-        var code= itemSnapshot.key;
-        var courseName= rootref.child(code).child("classname");
+            var rootref=firebase.database().ref().child("Lecturer").child(id).child("CoursesTeach");
 
-        courseName.once("value")
-        .then((snap2)=> {
-            var name= snap2.val();
-            console.log(code+ " " +name);
-            $("#classoption2").append("<option value='" + code +"'>"+ code +" "+ name +"</option>");
+            rootref.on("value", snap => {
+                snap.forEach(function(itemSnapshot) {
+                var code= itemSnapshot.key;
+                // var courseName= rootref.child(code).child("CoursesTeach");
+
+                var rootref2=firebase.database().ref().child("Class").child(code).child("classname");
+
+                // rootref2.on("value", snap => {
+                //     snap.forEach(function(itemSnapshot) {
+                //         // var code= itemSnapshot.key;
+                            // var courseName= rootref2.child(code).child("classname");
+
+                        rootref2.once("value")
+                        .then((snap2)=> {
+                            var name= snap2.val();
+                            console.log(code+ " " +name);
+                            //   $("#table_body").append("<tr><td>"+ code +"</td><td>"+ name + "</td><td><button>Delete</button></td></tr>");
+                            $("#classoption2").append("<option>"+ code +" " + name + "</option>");
+                        });
+
+                //     });
+                // });
+
+                
+
+                // courseName.once("value")
+                // .then((snap2)=> {
+                //     var name= snap2.val();
+                //     console.log(id+ " " +name);
+                //       $("#table_body").append("<tr><td>"+ code +"</td><td>"+ name + "</td><td><button>Delete</button></td></tr>");
+                //     // $("#addcode").append("<option>"+ id +" " + name + "</option>");
+
+                // });
+
+                });
+            });
+
+            
         });
 
-        });
-    });
     </script>
     
 

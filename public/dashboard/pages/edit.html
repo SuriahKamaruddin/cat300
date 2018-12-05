@@ -120,14 +120,15 @@
                                 <thead>
                                     <tr>
                                         <th>Class code</th>
-                                        <th>Class name</th>
+  
                                         <th>Add Class</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="addtable">
-                                        <td><input id="addcode" class="form-control" placeholder="" name="addcode" type="text" value=""></td>
-                                        <td><input id="addname" class="form-control" placeholder="" name="addname" type="text" value=""></td>
+                                    <tr class="addtable" id="classoption3">
+                                        <td><select class="form-control " name="choice"  required="required" id="addcode">
+                                                <option value="" disabled selected>Select class</option>
+                                              </select></td>
                                         <td onclick="addclass()" class="center"><button class="btn"><i class="fa fa-plus"></i></button></td>
                                     </tr>
                                 </tbody>
@@ -150,7 +151,7 @@
                                 CLASS LIST
                             </div>
                             <div class="panel-body">
-                                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <table width="100%" class="table table-striped table-bordered table-hover" id="addnewclass">
                                     <thead>
                                         <tr>
                                             <th>Class code</th>

@@ -2,8 +2,10 @@
 function generatecode() {
     var classType = document.getElementById("classoption").value;
     var classCode = document.getElementById("classoption2").value;
+    var spltclass = classCode.split(" ");
     var date = document.getElementById("lecturedate").value;
     var time = document.getElementById("lecturetime").value;
+
 
     var qrcode = new QRCode(document.getElementById('qrcode'), {
         width: 300,
@@ -14,11 +16,11 @@ function generatecode() {
     var count = 0;
 
     var n = Math.ceil(Math.random() * 1000);
-    var rootStr= classCode+"_"+classType+"_"+date+"_"+time;
-    var str = classCode+"_"+classType+"_"+date+"_"+time + "_" + n;
+    var rootStr= spltclass[0]+"_"+classType+"_"+date+"_"+time;
+    var str = spltclass[0]+"_"+classType+"_"+date+"_"+time + "_" + n;
     //var str = classCode+"_"+classType+"_"+date+"_"+time;
 
-    var addQRVal=firebase.database().ref().child('Class/'+classCode+'/ClassSession/'+rootStr);
+    var addQRVal=firebase.database().ref().child('Class/'+spltclass[0]+'/ClassSession/'+rootStr);
         
     /* Save and update data */
     addQRVal.set({
@@ -28,11 +30,11 @@ function generatecode() {
     qrcode.makeCode(str);
     count++;
     var generate = setInterval(function(){
-        n = Math.ceil(Math.random() * 1000);
+        n = Math.ceil(Math.random() * 2000);
         
-        str = classCode+"_"+classType+"_"+date+"_"+time + "_" + n;
+        str = spltclass[0]+"_"+classType+"_"+date+"_"+time + "_" + n;
 
-        var resetQRVal=firebase.database().ref().child('Class/'+classCode+'/ClassSession/'+rootStr);
+        var resetQRVal=firebase.database().ref().child('Class/'+spltclass[0]+'/ClassSession/'+rootStr);
         
         /* Save and update data */
         resetQRVal.update({
@@ -49,22 +51,22 @@ function generatecode() {
             document.getElementById('qrcode').innerHTML = "";
         }
     }, 10000);
-
-
-    
-
-    // var typeNumber = 4;
-    // var errorCorrectionLevel = 'L';
-    // var qr = qrcode(typeNumber, errorCorrectionLevel);
-    // qr.addData('Hi!');
-    // qr.make();
-    // document.getElementById('qrcode').innerHTML = qr.createImgTag();
 }
 
-// function addattendance(){
-//     var lecture = document.getElementById("classoption").value;
-//     var date = document.getElementById("lecturedate").value;
-//     var time = document.getElementById("lecturetime").value;
-//     var matric = document.getElementById("matricnumber").value;
-//     console.log(lecture+"_"+date+"_"+time+"_"+matric);
-// }
+function addattendance()
+{
+    var classType = document.getElementById("classoption").value;
+    var classCode = document.getElementById("classoption2").value;
+    var date = document.getElementById("lecturedate").value;
+    var time = document.getElementById("lecturetime").value;
+    var matric = document.getElementById("matricnumber").value;
+    str = classCode+"_"+classType+"_"+date+"_"+time;
+    var rootStr= classCode+"_"+classType+"_"+date+"_"+time;
+    var resetQRVal=firebase.database().ref().child('Class/'+classCode+'/ClassSession/'+rootStr);
+        
+    document.getElementById("matricnumber").value = "";
+        /* Save and update data */
+        resetQRVal.update({
+            CurrentQRValue:str
+        });
+}
