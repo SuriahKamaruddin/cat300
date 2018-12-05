@@ -1,4 +1,6 @@
 // var QRCode = require("./qrcode.js");
+
+
 function generatecode() {
     var classType = document.getElementById("classoption").value;
     var classCode = document.getElementById("classoption2").value;

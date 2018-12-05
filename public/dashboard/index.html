@@ -74,7 +74,7 @@
             </ul>
             <!-- /.navbar-top-links -->
 
-            <div class="navbar-default sidebar" role="navigation">
+            <div class="navbar-default sidebar" role="navigation" id="pages">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
@@ -164,28 +164,33 @@
       firebase.initializeApp(config);
     </script>
     <script>
-            var parameters = location.search.substring(1).split("&");
+            var str = atob(location.search.slice(1));
+            var parameters = str.split("&");
             l = parameters.map(v => v.split("=")[1]);
 
             var username = l[0];
             var pass = l[1];
 
-            username = username.split("%40").join("@");
-            console.log(username);
-  
-
-
-        firebase.auth().signInWithEmailAndPassword(username, pass)
-            .catch(function(error) {
-                    window.location.href = "http://localhost:8081";
+        firebase.auth().signInWithEmailAndPassword(username, pass).then(function(user) {
+            if (user) {
+                //window.location.href = "http://localhost:8081/dashboard/index.html" + location.search;
+            }
+            else {
+                window.location.href = "http://localhost:8081";
+            }
+        })
+        .catch(function(error) {
+                window.location.href = "http://localhost:8081";
             });
 
         firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
+
             console.log("SUCESS");
         }
 });
     </script>
+    
 
 </body>
 
